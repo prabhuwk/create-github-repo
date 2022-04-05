@@ -19,7 +19,7 @@ def repo():
 @click.option("--file", "-f", help="Path to Repo Specification", required=True)
 def create_repo(file: str):
     """Create GitHub Repository"""
-    return GitHubRepo(file).create()
+    GitHubRepo(file).create()
 
 
 @repo.command("delete")

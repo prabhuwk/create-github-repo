@@ -11,8 +11,13 @@ class SpecModel(BaseModel):
         return value
 
 
+class MetadataModel(BaseModel):
+    name: str
+
+
 class Model(BaseModel):
     kind: str
+    metadata: MetadataModel
     spec: SpecModel
 
     @validator("kind")
