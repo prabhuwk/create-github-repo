@@ -10,6 +10,7 @@ setup(
         "Click-plugins",
         "pydantic",
         "pyyaml",
+        "PyGithub",
     ],
     entry_points={
         "console_scripts": [

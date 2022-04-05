@@ -1,5 +1,5 @@
 apiVersion: example.com/v1alpha1
-kind: GitHubRep
+kind: GitHubRepo
 metadata:
   name: sample-repo
 spec:

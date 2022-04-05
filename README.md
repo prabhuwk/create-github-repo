@@ -27,3 +27,9 @@ In this we are going to
     kind
       GitHubRep is not GitHubRepo (type=assertion_error)
     ```
+
+3. Create github repository using commandline
+    ```shell
+    $ github repo create -f example/sample-repo.yaml
+    prabhuwk/sample-repo successfully created.
+    ```
