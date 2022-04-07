@@ -26,4 +26,4 @@ def create_repo(file: str):
 @click.option("--file", "-f", help="Path to Repo Specification", required=True)
 def delete_repo(file: str):
     """Delete GitHub Repository"""
-    return GitHubRepo(file).delete()
+    GitHubRepo(file).delete()
