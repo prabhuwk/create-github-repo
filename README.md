@@ -33,3 +33,9 @@ In this we are going to
     $ github repo create -f example/sample-repo.yaml
     prabhuwk/sample-repo successfully created.
     ```
+   
+    Delete github repository using commandline
+    ```shell
+    $ github repo delete -f example/sample-repo.yaml
+    sample-repo successfully deleted.
+    ```
