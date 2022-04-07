@@ -1,10 +1,7 @@
-FROM python:slim-buster
-RUN pip install virtualenv && \
-    useradd githubuser
-USER githubuser
+FROM python:slim-bullseye
 COPY . /opt/manage-github-repo/
-WORKDIR /opt/manage-github-repo/
-RUN virtualenv venv && \
-    source venv/bin/activate && \
+RUN pip install --upgrade pip && \
     pip install -e /opt/manage-github-repo/
+USER githubuser
+WORKDIR /opt/manage-github-repo
 ENTRYPOINT ["/bin/bash"]
