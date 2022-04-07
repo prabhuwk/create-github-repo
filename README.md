@@ -39,3 +39,5 @@ In this we are going to
     $ github repo delete -f example/sample-repo.yaml
     sample-repo successfully deleted.
     ```
+
+4. Create `manage-github-repo` Docker Image using [Github Actions](https://docs.github.com/en/actions).
