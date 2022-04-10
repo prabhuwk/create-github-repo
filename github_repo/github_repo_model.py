@@ -15,7 +15,7 @@ class MetadataModel(BaseModel):
     name: str
 
 
-class Model(BaseModel):
+class GitHubRepoModel(BaseModel):
     kind: str
     metadata: MetadataModel
     spec: SpecModel
