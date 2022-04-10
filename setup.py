@@ -17,5 +17,5 @@ setup(
             "github = github_repo.cli:github",
         ],
     },
-    extras_require={"development": ["mypy", "black[d]", "flake8", "devtools"]},
+    extras_require={"development": ["mypy", "black[d]", "flake8", "pytest", "devtools"]},
 )
