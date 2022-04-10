@@ -40,4 +40,18 @@ In this we are going to
     sample-repo successfully deleted.
     ```
 
-4. Create `manage-github-repo` Docker Image using [Github Actions](https://docs.github.com/en/actions).
+4. Create `manage-github-repo` Docker Image using [Github Actions](https://docs.github.com/en/actions).  
+
+
+5. Run tests using [pytest](https://docs.pytest.org/en/7.1.x/contents.html).
+
+   ```shell
+   $ pytest tests/
+   ================ test session starts =======================
+   platform darwin -- Python 3.9.10, pytest-7.1.1, pluggy-1.0.0
+   plugins: cov-3.0.0
+   collected 5 items                                                                                                                                                                                             
+   
+   tests/test_github_repo.py .....                       [100%]                                                            
+   ================ 5 passed in 0.18s =========================
+   ```
