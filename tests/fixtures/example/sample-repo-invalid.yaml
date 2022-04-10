@@ -1,0 +1,6 @@
+apiVersion: example.com/v1alpha1
+kind: GitHubRepo
+metadata:
+  name: sample-repo
+specIsWrong:
+  visibility: public
