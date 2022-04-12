@@ -32,6 +32,17 @@ class GitHubRepoList:
         return False
 
 
+def _github_operation_handler(github_operation):
+    @wraps(github_operation)
+    def github_operation_wrapper(self):
+        try:
+            return github_operation(self)
+        except GithubException as e:
+            raise e
+
+    return github_operation_wrapper
+
+
 class GitHubRepo:
     def __init__(self, file: str):
         self._file = file
@@ -62,16 +73,6 @@ class GitHubRepo:
     @property
     def repo_list(self):
         return self._repo_list
-
-    def _github_operation_handler(github_operation):
-        @wraps(github_operation)
-        def github_operation_wrapper(self):
-            try:
-                return github_operation(self)
-            except GithubException as e:
-                raise e
-
-        return github_operation_wrapper
 
     @_github_operation_handler
     def _github_repo_list(self) -> GitHubRepoList:
