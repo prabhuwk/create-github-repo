@@ -9,10 +9,6 @@ from pydantic import ValidationError
 from functools import wraps
 
 
-class AccessTokenNotFound(Exception):
-    """Exception for github access token not found"""
-
-
 class GitHubRepoInstance:
     def __new__(cls):
         return cls._create_github_instance()
