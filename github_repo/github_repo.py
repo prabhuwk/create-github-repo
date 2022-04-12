@@ -23,6 +23,9 @@ class GitHubRepoList:
     def __init__(self, repo_list: list):
         self.repo_list = repo_list
 
+    def __repr__(self):
+        return repr(self.repo_list)
+
     def __contains__(self, repo: str):
         if len(self.repo_list) > 0 and repo in self.repos_list:
             return True
@@ -34,8 +37,7 @@ class GitHubRepo:
         self._file = file
         self._cr = None
         self._github_instance = GithubInstance()
-        self._github_repo_list_instance = self._github_repo_list()
-        self._repo_list = self._github_repo_list_instance.repo_list
+        self._repo_list = self._github_repo_list()
 
     @property
     def file(self) -> str:
