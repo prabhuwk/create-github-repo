@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from functools import wraps
 
 
-class GitHubRepoInstance:
+class GithubInstance:
     def __new__(cls):
         return cls._create_github_instance()
 
@@ -23,7 +23,7 @@ class GitHubRepo:
     def __init__(self, file: str):
         self._file = file
         self._cr = None
-        self._github_instance = GitHubRepoInstance()
+        self._github_instance = GithubInstance()
 
     @property
     def file(self) -> str:
