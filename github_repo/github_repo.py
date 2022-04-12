@@ -19,11 +19,23 @@ class GithubInstance:
         return Github(_access_token)
 
 
+class GitHubRepoList:
+    def __init__(self, repo_list: list):
+        self.repo_list = repo_list
+
+    def __contains__(self, repo: str):
+        if len(self.repo_list) > 0 and repo in self.repos_list:
+            return True
+        return False
+
+
 class GitHubRepo:
     def __init__(self, file: str):
         self._file = file
         self._cr = None
         self._github_instance = GithubInstance()
+        self._github_repo_list_instance = self._github_repo_list()
+        self._repo_list = self._github_repo_list_instance.repo_list
 
     @property
     def file(self) -> str:
@@ -45,6 +57,10 @@ class GitHubRepo:
                 sys.exit(e)
         return self._cr
 
+    @property
+    def repo_list(self):
+        return self._repo_list
+
     def _github_operation_handler(github_operation):
         @wraps(github_operation)
         def github_operation_wrapper(self):
@@ -56,11 +72,11 @@ class GitHubRepo:
         return github_operation_wrapper
 
     @_github_operation_handler
-    def _get_list_of_repos(self) -> list:
-        repos_list = [
+    def _github_repo_list(self) -> GitHubRepoList:
+        repos_list = (
             repo.name for repo in self._github_instance.get_user().get_repos()
-        ]
-        return repos_list
+        )
+        return GitHubRepoList(list(repos_list))
 
     @_github_operation_handler
     def _create_repo(self) -> str:
@@ -68,16 +84,9 @@ class GitHubRepo:
         repo = user.create_repo(self.cr.metadata.name)
         return repo.full_name
 
-    def _find_repo_in_list(self) -> str:
-        repo_name = self.cr.metadata.name
-        repos_list = self._get_list_of_repos()
-        if len(repos_list) > 0 and repo_name in repos_list:
-            return repo_name
-        return ""
-
     def create(self) -> None:
-        repo_name = self._find_repo_in_list()
-        if repo_name:
+        repo_name = self.cr.metadata.name
+        if repo_name in self.repo_list:
             click.secho(f"{repo_name} repo already exists.")
             return
         repo_name = self._create_repo()
@@ -91,9 +100,9 @@ class GitHubRepo:
         return
 
     def delete(self) -> None:
-        repo_name = self._find_repo_in_list()
-        if repo_name:
+        repo_name = self.cr.metadata.name
+        if repo_name in self.repo_list:
             self._delete_repo()
             click.secho(f"{repo_name} successfully deleted.")
             return
-        click.secho(f"{self.cr.metadata.name} repo does not exists.")
+        click.secho(f"{repo_name} repo does not exists.")
