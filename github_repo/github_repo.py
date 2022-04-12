@@ -13,18 +13,21 @@ class AccessTokenNotFound(Exception):
     """Exception for github access token not found"""
 
 
-class GitHubRepo:
-    def __init__(self, file: str):
-        self._file = file
-        self._cr = None
-        self._github_instance = self._create_github_instance()
+class GitHubRepoInstance:
+    def __new__(cls):
+        return cls._create_github_instance()
 
     @staticmethod
     def _create_github_instance() -> Github:
         _access_token = os.environ.get("ACCESS_TOKEN")
-        if _access_token:
-            return Github(_access_token)
-        raise AccessTokenNotFound("Github access token not found.")
+        return Github(_access_token)
+
+
+class GitHubRepo:
+    def __init__(self, file: str):
+        self._file = file
+        self._cr = None
+        self._github_instance = GitHubRepoInstance()
 
     @property
     def file(self) -> str:
