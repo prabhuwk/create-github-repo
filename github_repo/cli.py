@@ -1,7 +1,7 @@
 import click
 from click_plugins import with_plugins
 from pkg_resources import iter_entry_points
-from github_repo.github_repo import GitHubRepo
+from github_repo.github_repo import GitHubRepoCreate, GitHubRepoDelete
 
 
 @with_plugins(iter_entry_points("github.plugins"))
@@ -19,11 +19,11 @@ def repo():
 @click.option("--file", "-f", help="Path to Repo Specification", required=True)
 def create_repo(file: str):
     """Create GitHub Repository"""
-    GitHubRepo(file).create()
+    GitHubRepoCreate(file)
 
 
 @repo.command("delete")
 @click.option("--file", "-f", help="Path to Repo Specification", required=True)
 def delete_repo(file: str):
     """Delete GitHub Repository"""
-    GitHubRepo(file).delete()
+    GitHubRepoDelete(file)
