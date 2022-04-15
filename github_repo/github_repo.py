@@ -8,7 +8,6 @@ from github_repo.github_repo_model import GitHubRepoModel
 from pydantic import ValidationError
 from functools import wraps
 
-
 def _github_operation_handler(github_operation):
     @wraps(github_operation)
     def github_operation_wrapper(self):
