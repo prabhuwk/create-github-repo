@@ -2,7 +2,7 @@ import os
 import pytest
 from github import Github
 from github_repo.github_repo_model import GitHubRepoModel
-from github_repo.github_repo import GitHubRepo, AccessTokenNotFound
+from github_repo.github_repo import GitHubRepo
 
 
 class TestGitHubRepo:
@@ -10,17 +10,11 @@ class TestGitHubRepo:
         github_instance = GitHubRepo._create_github_instance()
         assert type(github_instance) == Github
 
-    def test_access_token(self, sample_repo_file):
-        if not os.environ.get("ACCESS_TOKEN"):
-            with pytest.raises(AccessTokenNotFound) as e:
-                GitHubRepo(sample_repo_file)
-            assert f"Github access token not found." in str(e.value)
-        else:
-            assert "ACCESS_TOKEN" in os.environ
+    def test_access_token(self):
+        assert "ACCESS_TOKEN" in os.environ
 
     def test_init_success(self, sample_repo_file):
         github_instance = GitHubRepo(sample_repo_file)
-        assert github_instance.file == sample_repo_file
         assert type(github_instance.cr) == GitHubRepoModel
         assert type(github_instance) == GitHubRepo
 

@@ -8,7 +8,6 @@ from github_repo.github_repo_model import GitHubRepoModel
 from pydantic import ValidationError
 from functools import wraps
 
-
 def _github_operation_handler(github_operation):
     @wraps(github_operation)
     def github_operation_wrapper(self):
@@ -20,30 +19,17 @@ def _github_operation_handler(github_operation):
     return github_operation_wrapper
 
 
-class GithubInstance:
-    def __new__(cls):
-        return cls._create_github_instance()
-
-    @staticmethod
-    def _create_github_instance() -> Github:
-        _access_token = os.environ.get("ACCESS_TOKEN")
-        return Github(_access_token)
-
-
 class GitHubRepo:
     def __init__(self, file: str):
         self._file = file
         self._cr = None
-        self._github_instance = GithubInstance()
-        self._repo_list = GitHubRepoList(self._github_instance)
+        self._github_instance = self._create_github_instance()
+        self._repo_list = self._github_repo_list()
 
-    @property
-    def repo_list(self) -> list:
-        return self._repo_list
-
-    @property
-    def file(self) -> str:
-        return self._file
+    @staticmethod
+    def _create_github_instance() -> Github:
+        access_token = os.environ.get("ACCESS_TOKEN")
+        return Github(access_token)
 
     @staticmethod
     def _read_repo_spec_file(file: str) -> dict:
@@ -61,32 +47,10 @@ class GitHubRepo:
                 sys.exit(e)
         return self._cr
 
-
-class GitHubRepoList:
-    def __init__(self, github_instance: Github):
-        self._github_instance = github_instance
-        self.repo_list = self._github_repo_list()
-
     @_github_operation_handler
     def _github_repo_list(self) -> list:
-        repos_list = (
-            repo.name for repo in self._github_instance.get_user().get_repos()
-        )
-        return list(repos_list)
-
-    def __repr__(self):
-        return repr(self.repo_list)
-
-    def __contains__(self, repo: str):
-        if len(self.repo_list) > 0 and repo in self.repo_list:
-            return True
-        return False
-
-
-class GitHubRepoCreate(GitHubRepo):
-    def __init__(self, file: str):
-        super().__init__(file)
-        self._create()
+        repos = (repo.name for repo in self._github_instance.get_user().get_repos())
+        return list(repos)
 
     @_github_operation_handler
     def _create_repo(self) -> str:
@@ -94,19 +58,13 @@ class GitHubRepoCreate(GitHubRepo):
         repo = user.create_repo(self.cr.metadata.name)
         return repo.full_name
 
-    def _create(self) -> None:
+    def create(self) -> None:
         repo_name = self.cr.metadata.name
-        if repo_name in self.repo_list:
+        if repo_name in self._repo_list:
             click.secho(f"{repo_name} repo already exists.")
             return
         repo_name = self._create_repo()
         click.secho(f"{repo_name} successfully created.")
-
-
-class GitHubRepoDelete(GitHubRepo):
-    def __init__(self, file: str):
-        super().__init__(file)
-        self._delete()
 
     @_github_operation_handler
     def _delete_repo(self) -> None:
@@ -115,9 +73,9 @@ class GitHubRepoDelete(GitHubRepo):
         repo.delete()
         return
 
-    def _delete(self) -> None:
+    def delete(self) -> None:
         repo_name = self.cr.metadata.name
-        if repo_name in self.repo_list:
+        if repo_name in self._repo_list:
             self._delete_repo()
             click.secho(f"{repo_name} successfully deleted.")
             return
