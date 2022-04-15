@@ -10,9 +10,6 @@ class TestGitHubRepo:
         github_instance = GitHubRepo._create_github_instance()
         assert type(github_instance) == Github
 
-    def test_access_token(self):
-        assert "ACCESS_TOKEN" in os.environ
-
     def test_init_success(self, sample_repo_file):
         github_instance = GitHubRepo(sample_repo_file)
         assert type(github_instance.cr) == GitHubRepoModel
