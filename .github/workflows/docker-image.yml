@@ -15,8 +15,8 @@ jobs:
       run: pip install .
     - name: run python test cases 
       run: pytest tests/
-    with:
-      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      env:
+        ACCESS_TOKEN: ${{ github.token }}
   build:
     runs-on: ubuntu-latest
     steps:
