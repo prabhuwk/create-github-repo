@@ -1,5 +1,5 @@
-![pytest](https://github.com/prabhuwk/manage-github-repo/actions/workflows/test.yml/badge.svg)
-![build](https://github.com/prabhuwk/manage-github-repo/actions/workflows/build.yml/badge.svg)
+![pytest](https://github.com/prabhuwk/manage-github-repo/actions/workflows/main.yml/badge.svg)
+
 
 # Manage GitHubRepo 
 
