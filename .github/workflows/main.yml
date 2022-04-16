@@ -1,4 +1,4 @@
-name: pytest
+name: pytest and docker build
 
 on:
   push:
@@ -16,4 +16,11 @@ jobs:
     - name: run python test cases 
       run: pytest tests/
       env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: builds docker image
+      run: docker build . --file Dockerfile --tag manage-github-repo:latest
+  
