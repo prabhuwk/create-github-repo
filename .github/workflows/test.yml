@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: pytest
 
 on:
   push:
@@ -12,14 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: install required packages
-      run: pip install \.[development\]
+      run: pip install . && pip install pytest
     - name: run python test cases 
       run: pytest tests/
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag manage-github-repo:$(date +%s)
