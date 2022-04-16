@@ -1,4 +1,4 @@
-![pytest](https://github.com/prabhuwk/manage-github-repo/actions/workflows/main.yml/badge.svg)
+![pytest and docker build](https://github.com/prabhuwk/manage-github-repo/actions/workflows/main.yml/badge.svg)
 
 
 # Manage GitHubRepo 
